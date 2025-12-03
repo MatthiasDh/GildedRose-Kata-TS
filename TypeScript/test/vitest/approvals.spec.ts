@@ -1,5 +1,6 @@
-import { execSync } from 'node:child_process';
-import { Item, GildedRose } from '@/gilded-rose';
+import { execSync } from "node:child_process";
+import { GildedRose } from "@/gilded-rose";
+import { Item } from "../../app/item";
 
 /**
  * This test uses Vitest Snapshot, similar to [Jest Snapshot](https://goo.gl/fbAQLP).
@@ -11,18 +12,18 @@ import { Item, GildedRose } from '@/gilded-rose';
  * I suggest choosing one style to develop and deleting the other.
  */
 
-describe('Gilded Rose Approval', () => {
-  it('should foo', () => {
-    const gildedRose = new GildedRose([new Item('foo', 0, 0)]);
+describe("Gilded Rose Approval", () => {
+  it("should foo", () => {
+    const gildedRose = new GildedRose([new Item("foo", 0, 0)]);
     const items = gildedRose.updateQuality();
 
     expect(items).toMatchSnapshot();
   });
 
-  it('should thirtyDays', () => {
+  it("should thirtyDays", () => {
     const consoleOutput = execSync(
-      'ts-node test/golden-master-text-test.ts 30',
-      { encoding: 'utf-8' }
+      "ts-node test/golden-master-text-test.ts 30",
+      { encoding: "utf-8" }
     );
 
     expect(consoleOutput).toMatchSnapshot();
