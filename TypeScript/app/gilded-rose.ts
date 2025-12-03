@@ -1,3 +1,5 @@
+import { ItemTypes } from "./utils";
+
 export class Item {
   name: string;
   sellIn: number;
@@ -216,13 +218,13 @@ export class GildedRose {
   updateQuality(): Array<Item> {
     for (const item of this.items) {
       switch (item.name) {
-        case "Aged Brie":
+        case ItemTypes.AGED_BRIE:
           updateAgedBrie(item);
           continue;
-        case "Backstage passes to a TAFKAL80ETC concert":
+        case ItemTypes.BACKSTAGE_PASSES:
           updateBackstagePasses(item);
           continue;
-        case "Sulfuras, Hand of Ragnaros":
+        case ItemTypes.SULFURAS:
           updateSulfuras(item);
           continue;
         default:
