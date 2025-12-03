@@ -194,4 +194,44 @@ describe("Gilded Rose", () => {
       expect(items[0].quality).toBe(0);
     });
   });
+
+  describe("Conjured Items", () => {
+    it("should decrease quality twice as fast as normal items before sell by date", () => {
+      const gildedRose = new GildedRose([
+        new Item("Conjured Mana Cake", 10, 20),
+      ]);
+      const items = gildedRose.updateQuality();
+      expect(items[0].quality).toBe(18);
+    });
+
+    it("should decrease sellIn by 1", () => {
+      const gildedRose = new GildedRose([
+        new Item("Conjured Mana Cake", 10, 20),
+      ]);
+      const items = gildedRose.updateQuality();
+      expect(items[0].sellIn).toBe(9);
+    });
+
+    it("should decrease quality 4 times as fast after sell by date (2x conjured, 2x expired)", () => {
+      const gildedRose = new GildedRose([
+        new Item("Conjured Mana Cake", 0, 20),
+      ]);
+      const items = gildedRose.updateQuality();
+      expect(items[0].quality).toBe(16);
+    });
+
+    it("should not decrease quality below 0", () => {
+      const gildedRose = new GildedRose([
+        new Item("Conjured Mana Cake", 10, 1),
+      ]);
+      const items = gildedRose.updateQuality();
+      expect(items[0].quality).toBe(0);
+    });
+
+    it("should not decrease quality below 0 even after sell by date", () => {
+      const gildedRose = new GildedRose([new Item("Conjured Mana Cake", 0, 3)]);
+      const items = gildedRose.updateQuality();
+      expect(items[0].quality).toBe(0);
+    });
+  });
 });

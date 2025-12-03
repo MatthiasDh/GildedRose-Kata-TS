@@ -50,6 +50,20 @@ const updateBackstagePasses = (item: Item) => {
   }
 };
 
+const updateConjuredItem = (item: Item) => {
+  // Conjured items degrade in quality twice as fast as normal items
+  item.quality = decreaseQuality(item.quality);
+  item.quality = decreaseQuality(item.quality);
+
+  item.sellIn -= 1;
+
+  if (item.sellIn < 0) {
+    // After the sell by date, degrade in quality twice as fast
+    item.quality = decreaseQuality(item.quality);
+    item.quality = decreaseQuality(item.quality);
+  }
+};
+
 export class GildedRose {
   items: Array<Item>;
 
@@ -68,6 +82,9 @@ export class GildedRose {
           continue;
         case ItemTypes.SULFURAS:
           // Sulfuras is a legendary item and does not change quality or sellIn
+          continue;
+        case ItemTypes.CONJURED_MANA_CAKE:
+          updateConjuredItem(item);
           continue;
         default:
           updateNormalItem(item);
