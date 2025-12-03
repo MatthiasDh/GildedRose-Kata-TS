@@ -1,4 +1,4 @@
-import { ItemTypes } from "./utils";
+import { decreaseQuality, increaseQuality, ItemTypes } from "./utils";
 
 export class Item {
   name: string;
@@ -13,60 +13,40 @@ export class Item {
 }
 
 const updateNormalItem = (item: Item) => {
-  if (item.quality > 0) {
-    item.quality = item.quality - 1;
-  }
+  item.quality = decreaseQuality(item.quality);
 
-  item.sellIn = item.sellIn - 1;
+  item.sellIn -= 1;
 
   if (item.sellIn < 0) {
-    if (item.quality > 0) {
-      item.quality = item.quality - 1;
-    }
+    item.quality = decreaseQuality(item.quality);
   }
 };
 
 const updateAgedBrie = (item: Item) => {
-  if (item.quality < 50) {
-    item.quality = item.quality + 1;
-  }
+  item.quality = increaseQuality(item.quality);
 
-  item.sellIn = item.sellIn - 1;
+  item.sellIn -= 1;
 
   if (item.sellIn < 0) {
-    if (item.quality < 50) {
-      item.quality = item.quality + 1;
-    }
+    item.quality = increaseQuality(item.quality);
   }
 };
 
 const updateBackstagePasses = (item: Item) => {
-  if (item.quality < 50) {
-    item.quality = item.quality + 1;
-    if (item.sellIn < 11) {
-      if (item.quality < 50) {
-        item.quality = item.quality + 1;
-      }
-    }
-    if (item.sellIn < 6) {
-      if (item.quality < 50) {
-        item.quality = item.quality + 1;
-      }
-    }
+  item.quality = increaseQuality(item.quality);
+
+  if (item.sellIn < 11) {
+    item.quality = increaseQuality(item.quality);
   }
 
-  item.sellIn = item.sellIn - 1;
-
-  if (item.sellIn < 0) {
-    item.quality = item.quality - item.quality;
+  if (item.sellIn < 6) {
+    item.quality = increaseQuality(item.quality);
   }
-};
 
-const updateSulfuras = (item: Item) => {
+  item.sellIn -= 1;
+
   if (item.sellIn < 0) {
-    if (item.quality < 50) {
-      item.quality = item.quality + 1;
-    }
+    item.quality = 0;
   }
 };
 
@@ -87,7 +67,7 @@ export class GildedRose {
           updateBackstagePasses(item);
           continue;
         case ItemTypes.SULFURAS:
-          updateSulfuras(item);
+          // Sulfuras is a legendary item and does not change quality or sellIn
           continue;
         default:
           updateNormalItem(item);
