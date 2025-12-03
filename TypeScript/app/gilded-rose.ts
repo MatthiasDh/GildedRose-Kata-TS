@@ -1,16 +1,5 @@
+import { Item } from "./item";
 import { decreaseQuality, increaseQuality, ItemTypes } from "./utils";
-
-export class Item {
-  name: string;
-  sellIn: number;
-  quality: number;
-
-  constructor(name: string, sellIn: number, quality: number) {
-    this.name = name;
-    this.sellIn = sellIn;
-    this.quality = quality;
-  }
-}
 
 const updateNormalItem = (item: Item) => {
   item.quality = decreaseQuality(item.quality);
